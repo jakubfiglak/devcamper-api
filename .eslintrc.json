@@ -25,6 +25,7 @@
         "imports": "always-multiline",
         "objects": "always-multiline"
       }
-    ]
+    ],
+    "no-useless-escape": "off"
   }
 }
