@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=production node sever",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "import-data": "node seeder -import",
+    "destroy-data": "node seeder -destroy"
   },
   "author": "Jakub Figlak",
   "license": "MIT",
