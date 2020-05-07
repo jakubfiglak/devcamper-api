@@ -27,6 +27,7 @@
       }
     ],
     "no-useless-escape": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }

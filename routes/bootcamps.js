@@ -1,4 +1,5 @@
 const express = require('express');
+const asyncHandler = require('../middleware/async');
 const {
   getBootcamps,
   getBootcamp,
@@ -9,12 +10,15 @@ const {
 
 const router = express.Router();
 
-router.route('/').get(getBootcamps).post(createBootcamp);
+router
+  .route('/')
+  .get(asyncHandler(getBootcamps))
+  .post(asyncHandler(createBootcamp));
 
 router
   .route('/:id')
-  .get(getBootcamp)
-  .put(updateBootcamp)
-  .delete(deleteBootcamp);
+  .get(asyncHandler(getBootcamp))
+  .put(asyncHandler(updateBootcamp))
+  .delete(asyncHandler(deleteBootcamp));
 
 module.exports = router;
