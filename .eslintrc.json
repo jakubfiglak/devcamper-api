@@ -26,6 +26,7 @@
         "objects": "always-multiline"
       }
     ],
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "consistent-return": "off"
   }
 }
