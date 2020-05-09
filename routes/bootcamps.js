@@ -11,7 +11,7 @@ const {
 } = require('../controllers/bootcampsController');
 const Bootcamp = require('../models/Bootcamp');
 const advancedResults = require('../middleware/advancedResults');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // Include other resource routers
 const courseRouter = require('./courses');
@@ -24,13 +24,25 @@ router.use('/:bootcampId/courses', courseRouter);
 router
   .route('/')
   .get(advancedResults(Bootcamp, 'courses'), asyncHandler(getBootcamps))
-  .post(asyncHandler(protect), asyncHandler(createBootcamp));
+  .post(
+    asyncHandler(protect),
+    authorize('publisher', 'admin'),
+    asyncHandler(createBootcamp)
+  );
 
 router
   .route('/:id')
   .get(asyncHandler(getBootcamp))
-  .put(asyncHandler(protect), asyncHandler(updateBootcamp))
-  .delete(asyncHandler(protect), asyncHandler(deleteBootcamp));
+  .put(
+    asyncHandler(protect),
+    authorize('publisher', 'admin'),
+    asyncHandler(updateBootcamp)
+  )
+  .delete(
+    asyncHandler(protect),
+    authorize('publisher', 'admin'),
+    asyncHandler(deleteBootcamp)
+  );
 
 router
   .route('/radius/:zipcode/:distance')
@@ -38,6 +50,10 @@ router
 
 router
   .route('/:id/photo')
-  .put(asyncHandler(protect), asyncHandler(bootcampPhotoUpload));
+  .put(
+    asyncHandler(protect),
+    authorize('publisher', 'admin'),
+    asyncHandler(bootcampPhotoUpload)
+  );
 
 module.exports = router;
