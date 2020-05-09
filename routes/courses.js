@@ -7,11 +7,14 @@ const {
   updateCourse,
   deleteCourse,
 } = require('../controllers/coursesController');
+const { protect } = require('../middleware/auth');
 
 const Course = require('../models/Course');
 const advancedResults = require('../middleware/advancedResults');
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router({
+  mergeParams: true,
+});
 
 router
   .route('/')
@@ -22,12 +25,12 @@ router
     }),
     asyncHandler(getCourses)
   )
-  .post(asyncHandler(addCourse));
+  .post(asyncHandler(protect), asyncHandler(addCourse));
 
 router
   .route('/:id')
   .get(asyncHandler(getCourse))
-  .put(asyncHandler(updateCourse))
-  .delete(asyncHandler(deleteCourse));
+  .put(asyncHandler(protect), asyncHandler(updateCourse))
+  .delete(asyncHandler(protect), asyncHandler(deleteCourse));
 
 module.exports = router;

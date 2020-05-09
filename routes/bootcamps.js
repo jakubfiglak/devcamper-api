@@ -11,6 +11,7 @@ const {
 } = require('../controllers/bootcampsController');
 const Bootcamp = require('../models/Bootcamp');
 const advancedResults = require('../middleware/advancedResults');
+const { protect } = require('../middleware/auth');
 
 // Include other resource routers
 const courseRouter = require('./courses');
@@ -23,18 +24,20 @@ router.use('/:bootcampId/courses', courseRouter);
 router
   .route('/')
   .get(advancedResults(Bootcamp, 'courses'), asyncHandler(getBootcamps))
-  .post(asyncHandler(createBootcamp));
+  .post(asyncHandler(protect), asyncHandler(createBootcamp));
 
 router
   .route('/:id')
   .get(asyncHandler(getBootcamp))
-  .put(asyncHandler(updateBootcamp))
-  .delete(asyncHandler(deleteBootcamp));
+  .put(asyncHandler(protect), asyncHandler(updateBootcamp))
+  .delete(asyncHandler(protect), asyncHandler(deleteBootcamp));
 
 router
   .route('/radius/:zipcode/:distance')
   .get(asyncHandler(getBootcampsInRadius));
 
-router.route('/:id/photo').put(asyncHandler(bootcampPhotoUpload));
+router
+  .route('/:id/photo')
+  .put(asyncHandler(protect), asyncHandler(bootcampPhotoUpload));
 
 module.exports = router;
