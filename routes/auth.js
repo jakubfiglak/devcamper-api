@@ -9,12 +9,14 @@ const {
   resetPassword,
   updateDetails,
   updatePassword,
+  logout,
 } = require('../controllers/authController');
 
 const router = express.Router();
 
 router.post('/register', asyncHandler(register));
 router.post('/login', asyncHandler(login));
+router.get('/logout', asyncHandler(logout));
 router.get('/me', asyncHandler(protect), asyncHandler(getMe));
 router.put(
   '/updatedetails',
